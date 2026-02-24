@@ -1,6 +1,6 @@
 package ru.hse.java2026;
 
-public class SumCalculator {
+public class Sum {
     public static void main(String[] args) {
         if (args == null || args.length == 0) {
             System.out.println(0);
