@@ -1,43 +1,27 @@
 package ru.hse.java2026;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Sum {
     public static void main(String[] args) {
         if (args == null || args.length == 0) {
-            System.out.println(0);
-            return;
+            throw new IllegalArgumentException("Аргументы командной строки не заданы. Передайте числа для суммирования.");
         }
 
-        int totalSum = 0;
-
-        for (String arg : args) {
-            if (arg == null) {
-                continue;
-            }
-
-            int i = 0;
-            while (i < arg.length()) {
-                while (i < arg.length() && Character.isWhitespace(arg.charAt(i))) { //isWhitespace для обработки юникода
-                    i++;
-                }
-
-                if (i >= arg.length()) {
-                    break;
-                }
-
-                int start = i;
-                
-                while (i < arg.length() && !Character.isWhitespace(arg.charAt(i))) {
-                    i++;
-                }
-
-                String part = arg.substring(start, i);
-                try {
-                    totalSum += Integer.parseInt(part);
-                } catch (NumberFormatException e) {
-                    System.err.println("Пропущено некорректное значение: " + part);
-                }
-            }
-        }
+        int totalSum = Arrays.stream(args)
+                .filter(Objects::nonNull)
+                .flatMap(arg -> Arrays.stream(arg.split("\\p{javaWhitespace}+")))
+                .filter(part -> !part.isEmpty())
+                .mapToInt(part -> {
+                    try {
+                        return Integer.parseInt(part);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Пропущено некорректное значение: " + part);
+                        return 0;
+                    }
+                })
+                .sum();
 
         System.out.println(totalSum);
     }
