@@ -16,7 +16,7 @@ public class SumDoubleHex {
 
             int i = 0;
             while (i < arg.length()) {
-                while (i < arg.length() && Character.isWhitespace(arg.charAt(i))) { //isWhitespace для обработки юникода
+                while (i < arg.length() && Character.isWhitespace(arg.charAt(i))) { 
                     i++;
                 }
 
@@ -32,7 +32,7 @@ public class SumDoubleHex {
 
                 String part = arg.substring(start, i);
                 try {
-                    totalSum += Double.parseDouble(part); // parseDouble для работы с префиксом
+                    totalSum += Double.parseDouble(part); 
                 } catch (NumberFormatException e) {
                     System.err.println("Пропущено некорректное значение: " + part);
                 }
